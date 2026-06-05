@@ -8,6 +8,7 @@
 #include "airoc_whd_hal_common.h"
 #include "airoc_wifi.h"
 
+#include <whd_hal_port.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/logging/log.h>
@@ -21,6 +22,11 @@ extern "C" {
 /******************************************************
  *                 Function
  ******************************************************/
+
+whd_bool_t whd_hal_is_oob_pin_avaliable(const whd_oob_config_t *oob_config)
+{
+	return oob_config->host_oob_pin != NULL ? WHD_TRUE : WHD_FALSE;
+}
 
 int airoc_wifi_power_on(const struct device *dev)
 {
