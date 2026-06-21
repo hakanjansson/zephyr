@@ -176,11 +176,8 @@ void whd_bus_spi_oob_irq_handler(const struct device *port, struct gpio_callback
 	const whd_oob_config_t *oob_config = &data->whd_drv->bus_priv->spi_config.oob_config;
 	const struct gpio_dt_spec *host_oob_pin = oob_config->host_oob_pin;
 
-	/* Check OOB state is correct */
-	int expected_event = (oob_config->is_falling_edge == WHD_TRUE) ? 0 : 1;
-
-	if (!(pins & BIT(host_oob_pin->pin)) || (gpio_pin_get_dt(host_oob_pin) != expected_event)) {
-		WPRINT_WHD_ERROR(("Unexpected interrupt event %d\n", expected_event));
+	if (!(pins & BIT(host_oob_pin->pin))) {
+		LOG_DBG("Interrupt not for host_oob_pin, ignoring\n");
 		return;
 	}
 
